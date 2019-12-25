@@ -10,37 +10,140 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
+    <link rel="stylesheet" href="css/style.css">
+
     <title>Project 3 - "Notas" </title>
 </head>
 
 <body>
+
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Notas</a>
+        <a class="navbar-brand" href="#">Project Notas</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item m-1 active">
+                    <a class="nav-link" href="index.html">Notas <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item m-1">
+                    <a class="nav-link" href="index.html">Categorias </a>
+
+                </li>
+            </ul>
             <form class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" type="search" placeholder="Buscar notas" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
             </form>
         </div>
     </nav>
 
-    <table class="table">
-        <thead class="thead-dark">
-          <tr>
-            <th scope="col">Id</th>
-            <th scope="col">Categoria</th>
-            <th scope="col">Titulo</th>
-            <th scope="col">Contenido</th>
-          </tr>
-        </thead>
-        <tbody id="notas">
-          
-        </tbody>
-      </table>
+    <div class="container">
+
+        <div class="botones m-3 d-flex justify-content-around">
+            <div>
+                <!-- Trigger the modal with a button -->
+                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Nueva
+                    Categoria</button>
+
+                <!-- Modal -->
+                <div id="myModal" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <h4 class="modal-title">Crear una nueva nota</h4>
+
+                            <div class="modal-body">
+
+                                <div class="form-group">
+                                    <label for="titulo">Titulo:</label>
+                                    <input type="text" class="form-control" id="titulo">
+                                </div>
+                                <div class="form-group">
+                                    <label for="categoria">Categoria</label>
+                                    <select class="form-control" id="categoria">
+
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="contenido">Contenido:</label>
+                                    <textarea class="form-control" rows="5" id="contenido"></textarea>
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" onclick="nuevaNota()"
+                                    data-dismiss="modal">Guardar</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <!-- Trigger the modal with a button -->
+                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Nueva
+                    Nota</button>
+
+                <!-- Modal -->
+                <div id="myModal" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <h4 class="modal-title">Crear una nueva nota</h4>
+
+                            <div class="modal-body">
+
+                                <div class="form-group">
+                                    <label for="titulo">Titulo:</label>
+                                    <input type="text" class="form-control" id="titulo">
+                                </div>
+                                <div class="form-group">
+                                    <label for="categoria">Categoria</label>
+                                    <select class="form-control" id="categoria">
+
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="contenido">Contenido:</label>
+                                    <textarea class="form-control" rows="5" id="contenido"></textarea>
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" onclick="nuevaNota()"
+                                    data-dismiss="modal">Guardar</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div id="notas" class="d-flex">
+
+           
+
+        </div>
+
+    </div>
+
+
+
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -54,6 +157,9 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
     </script>
     <script src="js/script.js"></script>
+    <script>
+        mostrarNotas ()
+    </script>
 </body>
 
 </html>
