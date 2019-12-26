@@ -78,7 +78,7 @@ function mostrarNotas() {
 
         let nota = notas[i];
 
-        divNotas += '<div id="' + nota.id + '" class="col-md-4"><div class="card mb-4 shadow-sm"><h4 class="m-3">' + nota.titulo + '</h4><div class="card-body"><p class="card-text">' + nota.contenido + '</p><div class="d-flex justify-content-between align-items-center"><div class="btn-group"><button type="button" class="btn btn-sm btn-outline-secondary">Detalles</button><button type="button" class="btn btn-sm btn-outline-secondary">Editar</button></div><small class="text-muted">9 mins</small></div></div></div></div>'
+        divNotas += '<div id="' + nota.id + '" class="col-md-4"><div class="card mb-4 shadow-sm"><h4 class="m-3">' + nota.titulo + '</h4><div class="card-body"><p class="card-text">' + nota.contenido + '</p><div class="d-flex justify-content-between align-items-center"><div class="btn-group"><button type="button" id="' + nota.id + '" class="btn btn-sm btn-outline-secondary">Editar</button><button type="button" onclick="eliminarNotas()" id="' + nota.id + '" class="btn btn-sm btn-outline-secondary">Elimnar</button></div><small class="text-muted">9 mins</small></div></div></div></div>'
     }
 
 
@@ -164,4 +164,15 @@ function selectCategorias() {
 
     document.getElementById("selectcategorias").innerHTML = listado
 
+}
+
+// Funcion para modificar Notas
+
+function eliminarNotas() {
+    let notas = JSON.parse(localStorage.getItem("notas"))
+    console.log(notas)
+    
+    console.log(notas.findIndex(nota => nota.id === ))
+  
+    
 }
