@@ -26,11 +26,11 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item m-1 active">
-                    <a class="nav-link" href="index.html">Notas <span class="sr-only">(current)</span></a>
-                </li>
                 <li class="nav-item m-1">
-                    <a class="nav-link" href="categorias.html">Categorias </a>
+                    <a class="nav-link" href="index.html">Notas </a>
+                </li>
+                <li class="nav-item m-1 active">
+                    <a class="nav-link" href="categorias.html">Categorias <span class="sr-only">(current)</span></a>
 
                 </li>
             </ul>
@@ -61,7 +61,8 @@
                             <div class="modal-body">
                                 <h4 class="modal-title">Crear nueva categoria</h4>
                                 <div class="form-group mt-3">
-                                    <input type="text" class="form-control" placeholder="Nombre de la categoria" id="categoria">
+                                    <input type="text" class="form-control" placeholder="Nombre de la categoria"
+                                        id="categoria">
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -73,59 +74,22 @@
                     </div>
                 </div>
             </div>
-
-            <div>
-                <!-- Trigger the modal with a button -->
-                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal1">Nueva
-                    Nota</button>
-
-                <!-- Modal -->
-                <div id="myModal1" class="modal fade" role="dialog">
-                    <div class="modal-dialog">
-
-                        <!-- Modal content-->
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            </div>
-
-                            <div class="modal-body">
-                                <h4 class="modal-title">Crear una nueva nota</h4>
-                                <div class="form-group mt-3">
-                                    <label for="titulo">Titulo:</label>
-                                    <input type="text" class="form-control" id="titulo">
-                                </div>
-                                <div class="form-group">
-                                    <label for="categoria">Categoria</label>
-                                    <select class="form-control" id="categoria">
-
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="contenido">Contenido:</label>
-                                    <textarea class="form-control" rows="5" id="contenido"></textarea>
-                                </div>
-
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" onclick="nuevaNota()"
-                                    data-dismiss="modal">Guardar</button>
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
         </div>
-
     </div>
 
-    <div class="container">
-        <div id="notas" class="row">
+    <table class="table mx-5">
+        <thead>
+            <tr>
+                <th scope="col">Nombre Categoria</th>
+                <th scope="col">Modificar</th>
+                <th scope="col">Eliminar</th>
+            </tr>
+        </thead>
+        <tbody id="categorias">
+           
+        </tbody>
+    </table c>
 
-            
-        </div>
     </div>
 
 
@@ -145,7 +109,7 @@
     </script>
     <script src="js/script.js"></script>
     <script>
-          mostrarNotas()
+        mostrarCategorias()
     </script>
 </body>
 
