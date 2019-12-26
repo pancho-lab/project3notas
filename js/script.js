@@ -43,7 +43,7 @@ function nuevaNota() {
     let contenido = document.getElementById("contenido")
     let nuevaNota = new NewNote(id, titulo.value, categoria, contenido.value)
 
-    if (titulo.value != "" && contenido.value != "" && categoria.value != "") {
+    if (titulo.value != "" && contenido.value != "" && categoria.value != "Elegi una categoria") {
 
         notas.push(nuevaNota);
         console.log(notas)
@@ -104,6 +104,7 @@ function nuevaCategoria() {
     }
 
     let nombre = document.getElementById("categoria")
+    console.log(nombre.value)
     /* let color = document.getElementById("color") */
 
     let nuevaCategoria = new NewCategoria(nombre.value /* , color.value */ )
@@ -138,7 +139,29 @@ function mostrarCategorias() {
         tablaCategorias += '<tr><td>' + categoria.nombre + '</td><td><button type="button" class="btn btn-warning">Modificar</button></td><td><button type="button" class="btn btn-danger">Eliminar</button></td></tr>'
     }
 
-    document.getElementById("categorias").innerHTML = tablaCategorias
+    document.getElementById("listacategorias").innerHTML = tablaCategorias
 
+
+}
+
+// Funcion para selecionar categoria al agregar nota
+
+function selectCategorias() {
+    
+    let categorias = JSON.parse(localStorage.getItem("categorias"))
+
+    if (!categorias) {
+        categorias = []
+    }
+
+    let listado = '<option select>Elige una categoria</option>'
+
+    for (let i = 0; i < categorias.length; i++) {
+        let categoria = categorias[i]
+        
+        listado += '<option>'+ categoria.nombre +'</option>'        
+    }
+
+    document.getElementById("selectcategorias").innerHTML = listado
 
 }
