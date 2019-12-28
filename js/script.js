@@ -65,6 +65,7 @@ function nuevaNota() {
 // Mostrar Notas 
 
 function mostrarNotas() {
+
     let notas = JSON.parse(localStorage.getItem("notas"))
     console.log(notas)
 
@@ -77,11 +78,24 @@ function mostrarNotas() {
     for (let i = 0; i < notas.length; i++) {
 
         let nota = notas[i];
-
-        divNotas += '<div id="' + nota.id + '" class="col-md-4"><div class="card mb-4 shadow-sm"><h4 class="m-3">' + nota.titulo + '</h4><div class="card-body"><p class="card-text">' + nota.contenido + '</p><div class="d-flex justify-content-between align-items-center"><div class="btn-group"><button type="button" id="' + nota.id + '" class="btn btn-sm btn-outline-secondary">Editar</button><button type="button" onclick="eliminarNotas()" id="' + nota.id + '" class="btn btn-sm btn-outline-secondary">Elimnar</button></div><small class="text-muted">9 mins</small></div></div></div></div>'
+        console.log(notas[i].id)
+        divNotas += `<div id="${nota.id}" class="col-md-4">
+                        <div class="card mb-4 shadow-sm">
+                            <h4 class="m-3">${nota.titulo}</h4>
+                            <div class="card-body">
+                                <p class="card-text">${nota.contenido}</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group">
+                                        <button type="button" id="' + nota.id + '" class="btn btn-sm btn-outline-secondary">Editar</button>
+                                        <button type="button" onclick="eliminarNotas('${nota.id}')" class="btn btn-sm btn-outline-secondary">Elimnar</button>
+                                    </div>
+                                    <small class="text-muted">9 mins</small>
+                                </div>    
+                            </div>
+                        </div>
+                    </div>`
     }
-
-
+    
     document.getElementById("notas").innerHTML = divNotas
 }
 
@@ -147,7 +161,7 @@ function mostrarCategorias() {
 // Funcion para selecionar categoria al agregar nota
 
 function selectCategorias() {
-    
+
     let categorias = JSON.parse(localStorage.getItem("categorias"))
 
     if (!categorias) {
@@ -158,8 +172,8 @@ function selectCategorias() {
 
     for (let i = 0; i < categorias.length; i++) {
         let categoria = categorias[i]
-        
-        listado += '<option>'+ categoria.nombre +'</option>'        
+
+        listado += '<option>' + categoria.nombre + '</option>'
     }
 
     document.getElementById("selectcategorias").innerHTML = listado
@@ -168,11 +182,15 @@ function selectCategorias() {
 
 // Funcion para modificar Notas
 
-function eliminarNotas() {
+function eliminarNotas(idNotas) {
     let notas = JSON.parse(localStorage.getItem("notas"))
-    console.log(notas)
     
-    console.log(notas.findIndex(nota => nota.id === ))
-  
-    
+    let idNote = notas.findIndex( nota => nota.id == idNotas)
+
+    notas.splice(idNote,1)
+
+    localStorage.setItem("notas",JSON.stringify(notas))
+
+    mostrarNotas()
+
 }
