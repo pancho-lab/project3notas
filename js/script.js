@@ -24,6 +24,7 @@ class NewNote {
 // Crear Notas
 
 function nuevaNota() {
+    
     let notas = JSON.parse(localStorage.getItem("notas"))
 
     if (!notas) {
@@ -39,9 +40,9 @@ function nuevaNota() {
     document.getElementById("titulo").focus();
 
     let titulo = document.getElementById("titulo")
-    let categoria = document.getElementById("categoria") // este se tiene que sacar una lista creada anteriormente
+    let categoria = document.getElementById("selectcategorias") // este se tiene que sacar una lista creada anteriormente
     let contenido = document.getElementById("contenido")
-    let nuevaNota = new NewNote(id, titulo.value, categoria, contenido.value)
+    let nuevaNota = new NewNote(id, titulo.value, categoria.value, contenido.value)
 
     if (titulo.value != "" && contenido.value != "" && categoria.value != "Elegi una categoria") {
 
@@ -78,15 +79,16 @@ function mostrarNotas() {
     for (let i = 0; i < notas.length; i++) {
 
         let nota = notas[i];
-        console.log(notas[i].id)
+        console.log(nota.id)
         divNotas += `<div id="${nota.id}" class="col-md-4">
                         <div class="card mb-4 shadow-sm">
                             <h4 class="m-3">${nota.titulo}</h4>
                             <div class="card-body">
                                 <p class="card-text">${nota.contenido}</p>
+                                <p class="card-text">Categoria: ${nota.categoria}</p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
-                                        <button type="button" id="' + nota.id + '" class="btn btn-sm btn-outline-secondary">Editar</button>
+                                        <button type="button" id="${nota.id}" onclick="editarNotas('${nota.id}')" class="btn btn-sm btn-outline-secondary">Editar</button>
                                         <button type="button" onclick="eliminarNotas('${nota.id}')" class="btn btn-sm btn-outline-secondary">Elimnar</button>
                                     </div>
                                     <small class="text-muted">9 mins</small>
@@ -188,6 +190,65 @@ function eliminarNotas(idNotas) {
     let idNote = notas.findIndex( nota => nota.id == idNotas)
 
     notas.splice(idNote,1)
+
+    localStorage.setItem("notas",JSON.stringify(notas))
+
+    mostrarNotas()
+
+}
+
+
+function editarNotas(idNotas) {
+
+    let notas = JSON.parse(localStorage.getItem("notas"))
+    console.log(notas)
+
+    if (!notas) {
+        notas = []
+    }
+
+    let divNotas = ""
+    let idNote = notas.findIndex( nota => nota.id == idNotas)
+    console.log(idNote)
+
+
+        let nota = notas[idNote];
+        console.log(notas[idNote].id)
+        divNotas += `<div id="${nota.id}" class="col-md-4">
+                        <div class="card pb-4 shadow-sm">
+                            <label>Titulo: <input type="text" value="${nota.titulo}" id="${nota.id} titulo" class="p-3"><label>
+                            <label>Texto: <input type="text" class="p-3" id="${nota.id} contenido" value="${nota.contenido}"><label>
+                            <div class="card-body">
+                                <p class="card-text pt-3">Categoria: ${nota.categoria}</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group p-3">
+                                        <button type="button" id="${nota.id}" onclick="aceptarModificacion('${nota.id}')" class="btn btn-sm btn-outline-secondary">Aceptar</button>
+                                        <button type="button" onclick="mostrarNotas('${nota.id}')" class="btn btn-sm btn-outline-secondary">Cancelar</button>
+                                    </div>
+                                    <small class="text-muted">9 mins</small>
+                                </div>    
+                            </div>
+                        </div>
+                    </div>`
+    
+    
+    document.getElementById("notas").innerHTML = divNotas
+    
+
+}
+
+function aceptarModificacion(idNotas) {
+    
+    let notas = JSON.parse(localStorage.getItem("notas"))
+    console.log(notas)
+
+    
+    let idNote = notas.findIndex( nota => nota.id == idNotas)
+    console.log(idNote)
+
+    notas[idNote].titulo = document.getElementById(idNotas+' titulo').value
+    notas[idNote].contenido = document.getElementById(idNotas+' contenido').value 
+
 
     localStorage.setItem("notas",JSON.stringify(notas))
 
