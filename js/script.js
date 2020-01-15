@@ -13,11 +13,12 @@ function generarId(length) {
 // Generador de clases
 
 class NewNote {
-    constructor(id, titulo, categoria, contenido) {
+    constructor(id, titulo, categoria, contenido, fecha) {
         this.id = id;
         this.titulo = titulo;
         this.categoria = categoria;
         this.contenido = contenido;
+        this.fecha = fecha;
     }
 }
 
@@ -42,7 +43,9 @@ function nuevaNota() {
     let titulo = document.getElementById("titulo")
     let categoria = document.getElementById("selectcategorias") // este se tiene que sacar una lista creada anteriormente
     let contenido = document.getElementById("contenido")
-    let nuevaNota = new NewNote(id, titulo.value, categoria.value, contenido.value)
+    let fecha = new Date().toLocaleString()
+    let nuevaNota = new NewNote(id, titulo.value, categoria.value, contenido.value, fecha)
+    console.log(fecha)
 
     if (titulo.value != "" && contenido.value != "" && categoria.value != "Elegi una categoria") {
 
@@ -53,6 +56,7 @@ function nuevaNota() {
         titulo.value = ""
         categoria.value = ""
         contenido.value = ""
+        fecha = ""
 
         console.log(titulo.value, categoria.value, contenido.value)
 
@@ -65,14 +69,19 @@ function nuevaNota() {
 
 // Mostrar Notas 
 
-function mostrarNotas() {
+function mostrarNotas(notas = null) {
 
-    let notas = JSON.parse(localStorage.getItem("notas"))
-    console.log(notas)
-
-    if (!notas) {
-        notas = []
+    if (notas == null) {
+        
+        notas = JSON.parse(localStorage.getItem("notas"))
+        console.log(notas)
+    
+        if (!notas) {
+            notas = []
+        }
+        
     }
+    
 
     let divNotas = ""
 
@@ -91,7 +100,7 @@ function mostrarNotas() {
                                         <button type="button" id="${nota.id}" onclick="editarNotas('${nota.id}')" class="btn btn-sm btn-outline-secondary">Editar</button>
                                         <button type="button" onclick="eliminarNotas('${nota.id}')" class="btn btn-sm btn-outline-secondary">Elimnar</button>
                                     </div>
-                                    <small class="text-muted">9 mins</small>
+                                    <small class="text-muted">${nota.fecha}</small>
                                 </div>    
                             </div>
                         </div>
@@ -102,8 +111,9 @@ function mostrarNotas() {
 }
 
 class NewCategoria {
-    constructor(nombre /* color */ ) {
+    constructor(nombre, id /* color */ ) {
         this.nombre = nombre;
+        this.id = id;
         /*  this.color = color */
     }
 }
@@ -115,22 +125,33 @@ function nuevaCategoria() {
     let categorias = JSON.parse(localStorage.getItem("categorias"))
     console.log(categorias)
 
+
     if (!categorias) {
         categorias = []
+    }
+
+    let id = generarId(20)
+
+    if (id === categorias.id) {
+        alert("Intenta de nuevo, el codigo se repitio")
     }
 
     let nombre = document.getElementById("categoria")
     console.log(nombre.value)
     /* let color = document.getElementById("color") */
 
-    let nuevaCategoria = new NewCategoria(nombre.value /* , color.value */ )
+    let nuevaCategoria = new NewCategoria(nombre.value, id /* , color.value */ )
 
-    if (nombre != "" /* && color != "" */ ) {
+    if (nombre != "" && nombre.value.length < 31  && id != "" ) {
 
         categorias.push(nuevaCategoria)
         localStorage.setItem("categorias", JSON.stringify(categorias))
         nombre.value = ""
+        id = ""
         mostrarCategorias()
+    
+    } else if (nombre.value.length > 30){
+        alert("La caterogia no puede tener mas de 30 caracteres")
     }
 
 }
@@ -152,7 +173,7 @@ function mostrarCategorias() {
 
         let categoria = categorias[i]
         console.log(categoria.nombre)
-        tablaCategorias += '<tr><td>' + categoria.nombre + '</td><td><button type="button" class="btn btn-warning">Modificar</button></td><td><button type="button" class="btn btn-danger">Eliminar</button></td></tr>'
+        tablaCategorias += `<tr id="${categoria.id}"><td>${categoria.nombre}</td><td><button type="button" onclick="modificarCategorias('${categoria.id}')" class="btn btn-warning">Modificar</button></td><td><button type="button" onclick="eliminarCategorias('${categoria.id}')" class="btn btn-danger">Eliminar</button></td></tr>`
     }
 
     document.getElementById("listacategorias").innerHTML = tablaCategorias
@@ -225,12 +246,11 @@ function editarNotas(idNotas) {
                                         <button type="button" id="${nota.id}" onclick="aceptarModificacion('${nota.id}')" class="btn btn-sm btn-outline-secondary">Aceptar</button>
                                         <button type="button" onclick="mostrarNotas('${nota.id}')" class="btn btn-sm btn-outline-secondary">Cancelar</button>
                                     </div>
-                                    <small class="text-muted">9 mins</small>
+                                    <small class="text-muted">${nota.fecha}</small>
                                 </div>    
                             </div>
                         </div>
                     </div>`
-    
     
     document.getElementById("notas").innerHTML = divNotas
     
@@ -247,11 +267,109 @@ function aceptarModificacion(idNotas) {
     console.log(idNote)
 
     notas[idNote].titulo = document.getElementById(idNotas+' titulo').value
-    notas[idNote].contenido = document.getElementById(idNotas+' contenido').value 
+    notas[idNote].contenido = document.getElementById(idNotas+' contenido').value
+    notas[idNote].fecha = new Date().toLocaleString() 
 
 
     localStorage.setItem("notas",JSON.stringify(notas))
 
     mostrarNotas()
 
+}
+
+function eliminarCategorias(id) {
+    
+    let categorias = JSON.parse(localStorage.getItem("categorias"))
+    console.log(categorias)
+    console.log(id)
+    
+    let idCategoria = categorias.findIndex( categoria => categoria.id == id)
+
+    categorias.splice(idCategoria,1)
+
+    localStorage.setItem("categorias",JSON.stringify(categorias))
+
+    mostrarCategorias()
+
+
+}
+
+function modificarCategorias(id) {
+    
+    let categorias = JSON.parse(localStorage.getItem("categorias"))
+    console.log(categorias)
+
+    if (!categorias) {
+        categorias = []
+    }
+
+    let divCategorias = ""
+    let idCategoria = categorias.findIndex( categoria => categoria.id == id)
+    console.log(idCategoria)
+
+
+    let categoria = categorias[idCategoria];
+    console.log(categorias[idCategoria].id)
+    
+    divCategorias += `<tr id="">
+                            <td><input type="text" id="${categoria.id} nombre" value="${categoria.nombre}"</td>
+                            <td><button type="button" onclick="aceptarModificacionCategorias('${categoria.id}')" class="btn btn-warning">Aceptar</button></td>
+                            <td><button type="button" onclick="mostrarCategorias()" class="btn btn-danger">Cancelar</button></td>
+                          </tr>`
+    
+    
+    document.getElementById(id).innerHTML = divCategorias
+
+}
+
+function aceptarModificacionCategorias(id) {
+    
+    let categorias = JSON.parse(localStorage.getItem("categorias"))
+    console.log(categorias)
+
+    
+    let idCategoria = categorias.findIndex( categoria => categoria.id == id)
+    console.log(idCategoria)
+
+    
+    categorias[idCategoria].nombre = document.getElementById(id+' nombre').value
+    console.log(categorias[idCategoria])
+    
+    if (document.getElementById(id+' nombre').value.length < 31) {
+        
+        categorias[idCategoria].nombre = document.getElementById(id+' nombre').value
+
+    } else {
+        alert("La categoria no puede tener mas de 30 caracteres")
+    }
+
+    localStorage.setItem("categorias",JSON.stringify(categorias))
+
+    mostrarCategorias()
+
+}
+
+function buscarNotas() {
+    
+    console.log(event);
+
+    if (event.type == "submit") {
+        event.preventDefault();
+    }
+
+    let txt = document.getElementById("text-buscar").value;
+    console.log(txt)
+    let notas = JSON.parse(localStorage.getItem('notas'));
+    console.log(notas)
+    
+    // Controlo que se haya ingresado algo en el buscador
+    // y que la agenda no este vacía
+    if (txt && notas) {
+        let notaFiltrada = notas.filter(nota => nota.titulo.toLowerCase().indexOf(txt.toLowerCase()) > -1);
+        console.log(notaFiltrada)
+        mostrarNotas(notaFiltrada);
+    } else {
+        mostrarNotas(notas);
+        console.log(notas)
+    }
 }

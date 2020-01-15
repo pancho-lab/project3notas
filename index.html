@@ -35,8 +35,8 @@
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Buscar notas" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
+                <input class="form-control mr-sm-2" type="search" placeholder="Buscar notas" id="text-buscar" onkeydown="buscarNotas()" onkeyup="buscarNotas()" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" onclick="buscarNotas()"  type="button">Buscar</button>
             </form>
         </div>
     </nav>
